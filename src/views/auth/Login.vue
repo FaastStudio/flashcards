@@ -47,6 +47,15 @@ export default {
     loginGoogle () {
       const provider = new firebase.auth.GoogleAuthProvider()
       firebase.auth().signInWithPopup(provider).then((result) => {
+        const docRef = firebase.firestore().collection('user')
+        const userId = result.user.uid
+        const email = result.user.email
+        if (docRef.doc(userId)) {
+          return this.$router.replace('home')
+        } else {
+          docRef.doc(userId).set({ id: userId, email })
+            .then(this.$router.replace('home')).catch(err => console.log(err))
+        }
         this.$router.replace('home')
       }).catch((err) => {
         if (err) this.errorList[1].active = true

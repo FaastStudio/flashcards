@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuesax from 'vuesax'
 import VueI18n from 'vue-i18n'
 import firebase from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/firestore'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -19,6 +21,26 @@ var config = {
   messagingSenderId: '498617502369'
 }
 firebase.initializeApp(config)
+
+// config firestore
+var db = firebase.firestore()
+// Timestamps
+db.settings({
+  timestampsInSnapshots: true
+})
+// Persistance
+db.enablePersistence()
+  .catch(function (err) {
+    if (err.code === 'failed-precondition') {
+      // Multiple tabs open, persistence can only be enabled
+      // in one tab at a a time.
+      // ...
+    } else if (err.code === 'unimplemented') {
+      // The current browser does not support all of the
+      // features required to enable persistence
+      // ...
+    }
+  })
 
 Vue.config.productionTip = false
 
