@@ -33,10 +33,10 @@ npm install -g firebase-tools
 
 ## Github Structure
 
-- master branch (for deploy)
-  -- development branch (child of master)(latest version in development/pre deploy)
-  -- hotfix branch (child of master) (for hotfixes of public version)
-    --- feature branch (child of development) (development of single feature, merged into development and deleted after feature is finished)
++ - master branch (for deploy)
++ -- development branch (child of master)(latest version in development/pre deploy)
++ -- hotfix branch (child of master) (for hotfixes of public version)
++ --- feature branch (child of development) (development of single feature, merged into development and deleted after feature is finished)
 
 ## Documentation
 
