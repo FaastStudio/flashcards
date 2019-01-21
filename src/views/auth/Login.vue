@@ -1,15 +1,16 @@
 <template>
-  <vs-row class="login" vs-w="12" vs-type="flex" vs-justify="center" vs-align="center">
-    <vs-col class="column" vs-type="flex" vs-justify="center" vs-align="center" vs-xs="12" vs-sm="8" vs-lg="4">
-      <h2 style="margin-bottom: 1rem;">Login</h2>
-      <vs-input v-model="email.input" style="margin-bottom: 1rem;" type="email" placeholder="Your Email" label="Email" required></vs-input>
-      <vs-input v-model="password.input" style="margin-bottom: 1rem;" type="password" placeholder="Enter Password" label="Password" required></vs-input>
-      <vs-button @click="login()" style="width: 200px; margin-bottom: 0.5rem;">Login</vs-button>
-      <vs-button @click="loginGoogle()" type="line" color="#4885ed" style="width: 200px; margin-bottom: 0.5rem;">Login with Google</vs-button>
-      <vs-button type="flat" color="#AC1CF4"><router-link tag="span" to="/signup">No account yet? Sign Up here!</router-link></vs-button>
-      <vs-alert v-for="(err, index) in errorList" :key="index" :color="err.color" :active.sync="err.active" closable close-icon="cancel">{{ err.err }}</vs-alert>
-    </vs-col>
-  </vs-row>
+  <el-row type="flex" justify="center" align="middle" :gutter="10" class="login">
+    <el-col>
+      <el-row type="flex" style="flex-direction: column; text-align: center;">
+        <h2 class="formItem">Login</h2>
+        <el-input class="formItem" placeholder="Your Email" type="email" v-model="email.input"></el-input>
+        <el-input class="formItem" placeholder="Password" type="password" v-model="password.input"></el-input>
+        <el-button class="formItem" type="primary" @click="login()">Login</el-button>
+        <el-button class="formItem" @click="loginGoogle()" style="margin: 0; margin-bottom: 1rem;">Login with Google</el-button>
+        <router-link tag="span" to="/signup">No account yet? Sign Up here!</router-link>
+      </el-row>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
@@ -67,9 +68,10 @@ export default {
 
 <style lang="scss" scoped>
 .login {
+  color: #333;
   height: 100vh;
-  .column {
-    flex-direction: column;
+  .formItem {
+    margin-bottom: 1rem;
   }
 }
 </style>

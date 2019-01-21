@@ -1,26 +1,30 @@
 <template>
-  <vs-col vs-w="5">
-        <vs-card style="height: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-          <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <vs-button type="flat" color="#444">
-              <span>{{ title }}</span>
-            </vs-button>
-          </div>
-          <div slot="footer" v-if="false">
-            <vs-row vs-justify="flex-end">
-              <vs-button>1</vs-button>
-            </vs-row>
-          </div>
-        </vs-card>
-      </vs-col>
+  <v-flex xs6 pa-1>
+    <div class="card" >{{ doc.data().title }}</div>
+  </v-flex>
 </template>
 
 <script>
 export default {
-  name: 'Deck',
+  name: 'deck-card',
   props: {
-    id: String,
-    title: String
+    doc: {
+      type: Object,
+      required: true
+    }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.card {
+  width: auto;
+  margin: 0;
+  min-height: 20vh;
+  border-radius: 15px;
+  box-shadow: 3px 6px 8px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

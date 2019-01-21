@@ -1,10 +1,8 @@
 <template>
-  <div class="overview" style="margin: auto auto; margin-top: 2rem;">
-    <vs-row vs-w="12" vs-type="flex" vs-justify="space-around" vs-align="left" style="padding: 10px;">
-      <create-deck></create-deck>
-      <deck-card v-for="deck in sampleData" :title="deck.data().title" :key="deck.id"></deck-card>
-    </vs-row>
-  </div>
+  <v-layout row wrap>
+    <create-deck></create-deck>
+    <deck-card v-for="deck in decksData" :key="deck.id" :doc="deck"></deck-card>
+  </v-layout>
 </template>
 
 <script>
@@ -21,7 +19,7 @@ export default {
   },
   data () {
     return {
-      sampleData: []
+      decksData: []
     }
   },
   created () {
@@ -29,7 +27,7 @@ export default {
     const userId = firebase.auth().currentUser.uid
     deckRef.where('creator', '==', userId).get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        this.sampleData.push(doc)
+        this.decksData.push(doc)
         console.log(doc.id, ':', doc.data(), doc.metadata.fromCache)
       })
     })
@@ -38,4 +36,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.card {
+  margin: 0;
+  min-height: 100px;
+  border-radius: 15px;
+  box-shadow: 3px 6px 8px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>

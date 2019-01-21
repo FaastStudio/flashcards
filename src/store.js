@@ -5,12 +5,21 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    userId: null
+    sidebar: false
   },
   mutations: {
-
+    toggleSidebar (state) {
+      state.sidebar = !state.sidebar
+    }
   },
   actions: {
-
+    toggleSidebar (context) {
+      context.commit('toggleSidebar')
+    }
+  },
+  getters: {
+    sidebar (state) {
+      return state.sidebar
+    }
   }
 })

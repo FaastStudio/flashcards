@@ -1,15 +1,16 @@
 import Vue from 'vue'
-import Vuesax from 'vuesax'
+import './plugins/vuetify'
 import VueI18n from 'vue-i18n'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
-import App from './App.vue'
 import router from './router'
 import store from './store'
 import './registerServiceWorker'
-import 'vuesax/dist/vuesax.css' // Vuesax styles
+import 'element-ui/lib/theme-chalk/index.css'
+import 'element-ui/lib/theme-chalk/display.css'
 import 'material-icons/iconfont/material-icons.css' // Material Icons
+import App from './App.vue'
 
 // Initialize Firebase
 var config = {
@@ -44,7 +45,6 @@ db.enablePersistence()
 
 Vue.config.productionTip = false
 
-Vue.use(Vuesax)
 Vue.use(VueI18n)
 
 const i18n = new VueI18n({})

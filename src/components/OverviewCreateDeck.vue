@@ -1,17 +1,28 @@
 <template>
-  <vs-col vs-w="5">
-        <vs-card style="height: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-          <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <vs-button type="flat" color="#444">
-              <span><i class="material-icons">add_box</i></span><br>
-              <span>Create new Deck</span>
-            </vs-button>
-          </div>
-          <div slot="footer" v-if="false">
-            <vs-row vs-justify="flex-end">
-              <vs-button>1</vs-button>
-            </vs-row>
-          </div>
-        </vs-card>
-      </vs-col>
+  <v-flex xs6 pa-1>
+    <div class="card" @click="createNewDeck()"><span class="material-icons">add_box</span></div>
+  </v-flex>
 </template>
+
+<script>
+export default {
+  name: 'create-deck-card',
+  methods: {
+    createNewDeck () {
+      this.$router.push('/create')
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.card {
+  margin: 0;
+  min-height: 20vh;
+  border-radius: 15px;
+  box-shadow: 3px 6px 8px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

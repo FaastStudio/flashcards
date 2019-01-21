@@ -7,20 +7,21 @@ import Login from './views/auth/Login.vue'
 import SignUp from './views/auth/SignUp.vue'
 
 import Overview from './pages/Overview.vue'
+import CreateDeck from './pages/CreateDeck.vue'
 
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
+  // mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
       path: '*',
-      redirect: '/login'
+      redirect: '/home'
     },
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/home'
     },
     {
       path: '/home',
@@ -34,6 +35,11 @@ const router = new Router({
           path: '/home',
           name: 'overview',
           component: Overview
+        },
+        {
+          path: '/create',
+          name: 'create-deck-page',
+          component: CreateDeck
         }
       ]
     },
@@ -51,7 +57,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  const currentUser = firebase.auth().currentUser
+  const currentUser = firebase.auth().currentUser || true
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
 
   if (requiresAuth && !currentUser) next('login')
