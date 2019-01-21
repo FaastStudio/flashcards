@@ -40,9 +40,9 @@ npm install -g firebase-tools
 
 ## Documentation
 
-[Vue.js **Best documentation worldwide** ](https://vuejs.org/v2/guide/)
-[Firebase Docs](https://firebase.google.com/docs/)
-[Vuetify Docs **Component Framework**](https://vuetifyjs.com/en/getting-started/quick-start)
++ [Vue.js **Best documentation worldwide** ](https://vuejs.org/v2/guide/)
++ [Firebase Docs](https://firebase.google.com/docs/)
++ [Vuetify Docs **Component Framework**](https://vuetifyjs.com/en/getting-started/quick-start)
 
 ## Project setup inside Flashcards Folder
 ```
