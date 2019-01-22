@@ -1,16 +1,16 @@
 <template>
-  <el-row type="flex" justify="center" align="middle" :gutter="10" class="login">
-    <el-col>
-      <el-row type="flex" style="flex-direction: column; text-align: center;">
-        <h2 class="formItem">Login</h2>
-        <el-input class="formItem" placeholder="Your Email" type="email" v-model="email.input"></el-input>
-        <el-input class="formItem" placeholder="Password" type="password" v-model="password.input"></el-input>
-        <el-button class="formItem" type="primary" @click="login()">Login</el-button>
-        <el-button class="formItem" @click="loginGoogle()" style="margin: 0; margin-bottom: 1rem;">Login with Google</el-button>
-        <router-link tag="span" to="/signup">No account yet? Sign Up here!</router-link>
-      </el-row>
-    </el-col>
-  </el-row>
+  <v-container>
+    <v-layout xs12 sm10 md8 lg6>
+      <v-flex>
+        <v-form>
+          <v-text-field type="email" label="Email" v-model="email.input" required></v-text-field>
+          <v-text-field type="password" label="Password" v-model="password.input" required></v-text-field>
+          <v-btn color="primary" block @click="login()">Log In</v-btn>
+          <v-btn color="white" class="mt-3" @click="loginGoogle()" block>Log In with Google</v-btn>
+        </v-form>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -21,29 +21,30 @@ export default {
     return {
       name: 'login',
       email: {
-        input: '',
-        color: ''
+        input: ''
       },
       password: {
-        input: '',
-        color: ''
+        input: ''
       },
       errorList: [{ color: 'danger', err: 'Check your Input!', active: false }, { color: 'danger', err: 'Something went wrong! Try again later...', active: false }]
     }
   },
   methods: {
     login () {
-      firebase.auth().signInWithEmailAndPassword(this.email.input, this.password.input)
-        .then(
-          (user) => {
-            if (user) this.$router.push('/home')
-          },
-          (err) => {
-            if (err) {
-              this.errorList[0].active = true
-            }
-          }
-        )
+      firebase.auth().signInWithEmailAndPassword(this.email.input, this.password.input).then((result) => {
+        const docRef = firebase.firestore().collection('user')
+        const userId = result.user.uid
+        const email = result.user.email
+        if (docRef.doc(userId)) {
+          return this.$router.replace('home')
+        } else {
+          docRef.doc(userId).set({ id: userId, email })
+            .then(this.$router.replace('home')).catch(err => console.log(err))
+        }
+        this.$router.replace('home')
+      }).catch((err) => {
+        if (err) this.errorList[1].active = true
+      })
     },
     loginGoogle () {
       const provider = new firebase.auth.GoogleAuthProvider()

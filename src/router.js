@@ -3,11 +3,13 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import LearnView from './views/LearnView.vue'
 import Login from './views/auth/Login.vue'
 import SignUp from './views/auth/SignUp.vue'
 
 import Overview from './pages/Overview.vue'
 import CreateDeck from './pages/CreateDeck.vue'
+import EditDeck from './pages/EditDeck.vue'
 
 Vue.use(Router)
 
@@ -40,8 +42,20 @@ const router = new Router({
           path: '/create',
           name: 'create-deck-page',
           component: CreateDeck
+        },
+        {
+          path: '/edit/:deckId',
+          name: 'edit-deck-page',
+          component: EditDeck
         }
       ]
+    },
+    {
+      path: '/learn/:deckId',
+      component: LearnView,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/login',
@@ -57,7 +71,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  const currentUser = firebase.auth().currentUser || true
+  const currentUser = firebase.auth().currentUser
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
 
   if (requiresAuth && !currentUser) next('login')

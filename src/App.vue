@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import firebase from 'firebase/app'
+import 'firebase/auth'
 export default {
   name: 'App',
   data () {
@@ -79,6 +81,9 @@ export default {
         return true
       }
     }
+  },
+  mounted () {
+    console.log('Authenticated', !!firebase.auth().currentUser)
   }
 }
 </script>

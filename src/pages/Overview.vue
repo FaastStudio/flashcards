@@ -1,7 +1,7 @@
 <template>
   <v-layout row wrap>
     <create-deck></create-deck>
-    <deck-card v-for="deck in decksData" :key="deck.id" :doc="deck"></deck-card>
+    <deck-card v-for="deck in decksData" :key="deck.id" :doc="deck" @click.native="startLearning(deck)" v-longpress="(event) => {longPress(deck) }"></deck-card>
   </v-layout>
 </template>
 
@@ -22,15 +22,24 @@ export default {
       decksData: []
     }
   },
-  created () {
-    const deckRef = firebase.firestore().collection('decks')
-    const userId = firebase.auth().currentUser.uid
+  async created () {
+    const deckRef = await firebase.firestore().collection('decks')
+    const userId = await firebase.auth().currentUser.uid
     deckRef.where('creator', '==', userId).get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         this.decksData.push(doc)
         console.log(doc.id, ':', doc.data(), doc.metadata.fromCache)
       })
     })
+  },
+  methods: {
+    longPress (deck) {
+      this.$router.push('/edit/' + deck.id)
+    },
+    startLearning (deck) {
+      let r = confirm(`Start learning ${deck.data().title}`)
+      if (r) this.$router.push('/learn/' + deck.id)
+    }
   }
 }
 </script>

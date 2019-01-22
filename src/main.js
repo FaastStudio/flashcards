@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import './plugins/vuetify'
-import VueI18n from 'vue-i18n'
+import './plugins/longPress'
+// import VueI18n from 'vue-i18n'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 import router from './router'
 import store from './store'
 import './registerServiceWorker'
-import 'element-ui/lib/theme-chalk/index.css'
-import 'element-ui/lib/theme-chalk/display.css'
 import 'material-icons/iconfont/material-icons.css' // Material Icons
 import App from './App.vue'
 
@@ -45,15 +44,15 @@ db.enablePersistence()
 
 Vue.config.productionTip = false
 
-Vue.use(VueI18n)
+// Vue.use(VueI18n)
 
-const i18n = new VueI18n({})
+// const i18n = new VueI18n({})
 
 let app = ''
 firebase.auth().onAuthStateChanged(() => {
   if (!app) {
     app = new Vue({
-      i18n,
+      // i18n,
       router,
       store,
       render: h => h(App)

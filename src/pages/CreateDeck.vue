@@ -15,7 +15,7 @@
           v-model="subject"
           required
         ></v-text-field>
-        <v-btn :disabled="!valid" color="primary" @click="validate">Create Deck</v-btn>
+        <v-btn :disabled="!valid" color="primary" @click="createDeck()">Create Deck</v-btn>
       </v-form>
     </v-flex>
     <v-flex v-if="tool">
@@ -44,7 +44,7 @@
 
           <v-card-actions>
             <v-btn color="primary" @click="saveCard()">New Card</v-btn>
-            <v-btn color="success">Save Deck</v-btn>
+            <v-btn color="success" @click="saveDeck()">Save Deck</v-btn>
           </v-card-actions>
         </v-container>
       </v-card>
@@ -66,36 +66,71 @@
 </template>
 
 <script>
+import firebase from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/firestore'
 export default {
   name: 'create-deck-page',
   data: () => ({
     snackbar: false,
     valid: true,
+    // Input
     title: null,
     subject: null,
     tool: false,
+    // Card Input
     cardInput: {
       question: null,
       answer: null
     },
-    cards: []
+    // Deck Data
+    deck: [],
+    deckId: null
   }),
   methods: {
-    validate () {
-      if (this.$refs.form.validate()) {
-        this.tool = true
-      }
-    },
     saveCard () {
       if (this.cardInput.question && this.cardInput.question) {
-        this.cards.push(
+        this.deck.push(
           { question: this.cardInput.question, answer: this.cardInput.answer }
         )
         this.snackbar = true
         this.cardInput.answer = null
         this.cardInput.question = null
-        console.log(...this.cards)
+        console.log(...this.deck)
       }
+    },
+    createDeck () {
+      if (this.deck !== []) {
+        // Save deck
+        firebase.firestore().collection('decks').add({
+          creator: firebase.auth().currentUser.uid,
+          title: this.title,
+          subject: this.subject,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(res => {
+          console.info('created')
+          this.deckId = res.id
+          this.tool = true
+        })
+          .catch(err => console.error(err))
+      }
+    },
+    saveDeck () {
+      // Saving deck after creating cards
+      const ref = firebase.firestore().collection('decks').doc(this.deckId)
+      if (this.cardInput.question && this.cardInput.answer) {
+        this.saveCard()
+        this.deck.forEach(deck => {
+          console.log('card added')
+          ref.collection('cards').add(deck)
+        })
+      } else {
+        this.deck.forEach(deck => {
+          console.log('card added')
+          ref.collection('cards').add(deck)
+        })
+      }
+      this.$router.push('/home')
     }
   }
 }
