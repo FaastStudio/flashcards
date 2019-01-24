@@ -1,7 +1,7 @@
 <template>
   <v-layout row wrap>
     <create-deck></create-deck>
-    <deck-card v-for="deck in decksData" :key="deck.id" :doc="deck" @click.native="startLearning(deck)" v-longpress="(event) => {longPress(deck) }"></deck-card>
+    <deck-card v-for="deck in decksData" :key="deck.id" :doc="deck" @click.native="longPress(deck)" v-longpress="(event) => {startLearning(deck) }"></deck-card>
   </v-layout>
 </template>
 

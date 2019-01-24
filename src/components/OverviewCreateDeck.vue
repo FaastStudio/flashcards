@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs6 pa-1>
+  <v-flex xs6 md3 pa-1>
     <div class="card" @click="createNewDeck()"><span class="material-icons">add_box</span></div>
   </v-flex>
 </template>
@@ -24,5 +24,13 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  span {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
 }
 </style>

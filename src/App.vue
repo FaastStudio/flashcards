@@ -1,36 +1,33 @@
 <template>
   <v-app>
-      <v-navigation-drawer v-model="drawer" absolute temporary>
+      <v-navigation-drawer class="unselect" v-model="drawer" absolute temporary>
         <v-list class="py-3">
           <v-list-tile>
             <v-list-tile-content>
-              <h2 style="margin: auto">DEX</h2>
+              <h2 class="unselect" style="margin: auto">DEX</h2>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
         <v-list class="pt-1">
           <v-divider></v-divider>
-          <v-list-tile v-for="item in items" :key="item.title">
+          <v-list-tile class="unselect" v-for="item in items" :key="item.title">
             <v-list-tile-action>
-              <v-icon>
+              <v-icon class="unselect">
                 {{ item.icon }}
               </v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>
+              <v-list-tile-title class="unselect">
                 {{ item.title }}
               </v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
       </v-navigation-drawer>
-    <v-toolbar app>
-      <v-toolbar-side-icon  v-if="showNavbar" @click="drawer = !drawer"></v-toolbar-side-icon>
-      <v-btn v-else icon @click="goBack()">
-        <v-icon>arrow_back</v-icon>
-      </v-btn>
+    <v-toolbar v-if="showNavbar" app class="unselect">
+      <v-toolbar-side-icon class="unselect" @click="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title class="headline text-uppercase">
-        <span class="font-weight-light">Dex</span>
+        <span class="font-weight-light unselect">Dex</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
     </v-toolbar>
@@ -75,10 +72,10 @@ export default {
       return this.$route.name
     },
     showNavbar () {
-      if (this.route === 'create-deck-page') {
-        return false
-      } else {
+      if (this.route === 'overview') {
         return true
+      } else {
+        return false
       }
     }
   },
@@ -87,3 +84,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.unselect {
+  user-select: none;
+}
+</style>

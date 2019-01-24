@@ -1,5 +1,15 @@
 <template>
   <v-layout>
+    <v-toolbar app class="unselect">
+      <v-btn icon @click="goHome()">
+        <v-icon>arrow_back</v-icon>
+      </v-btn>
+      <v-toolbar-title class="headline text-uppercase">
+        <span class="font-weight-light unselect">Dex</span>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+    </v-toolbar>
+
     <v-flex v-if="!tool" xs12 sm10 md8 lg6>
       <h1>Create Deck</h1>
       <v-form ref="form" v-model="valid" lazy-validation>
@@ -77,7 +87,10 @@ export default {
     // Input
     title: null,
     subject: null,
+    // Create Card Tool
     tool: false,
+    // Mode for adding cards afterwards
+    addCardMode: false,
     // Card Input
     cardInput: {
       question: null,
@@ -87,7 +100,22 @@ export default {
     deck: [],
     deckId: null
   }),
+  mounted () {
+    if (this.$route.params.deckId) {
+      console.log('add card')
+      this.tool = true
+      this.addCardMode = true
+      this.deckId = this.$route.params.deckId
+      this.fetchFullDeck()
+    } else {
+      this.tool = false
+      this.addCardMode = false
+    }
+  },
   methods: {
+    goHome () {
+      this.$router.push('/home')
+    },
     saveCard () {
       if (this.cardInput.question && this.cardInput.question) {
         this.deck.push(
@@ -118,6 +146,7 @@ export default {
     saveDeck () {
       // Saving deck after creating cards
       const ref = firebase.firestore().collection('decks').doc(this.deckId)
+      // If normaly creating deck
       if (this.cardInput.question && this.cardInput.answer) {
         this.saveCard()
         this.deck.forEach(deck => {
@@ -130,7 +159,19 @@ export default {
           ref.collection('cards').add(deck)
         })
       }
-      this.$router.push('/home')
+      if (this.addCardMode) {
+        this.$router.push('/edit/' + this.deckId)
+      } else {
+        this.$router.push('/home')
+      }
+    },
+    fetchFullDeck () {
+      this.tool = true
+      let colRef = firebase.firestore().collection('decks')
+      colRef.doc(this.$route.params.deckId).get().then((doc) => {
+        this.title = doc.data().title
+        this.subject = doc.data().subject
+      })
     }
   }
 }

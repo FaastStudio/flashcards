@@ -44,6 +44,11 @@ const router = new Router({
           component: CreateDeck
         },
         {
+          path: '/create/:deckId',
+          name: 'add-card',
+          component: CreateDeck
+        },
+        {
           path: '/edit/:deckId',
           name: 'edit-deck-page',
           component: EditDeck
