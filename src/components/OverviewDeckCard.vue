@@ -1,6 +1,17 @@
 <template>
   <v-flex xs6 md3 pa-1>
-    <div class="card" @click.native="editDeck"><span class="card-title">{{ doc.data().title }}</span></div>
+    <div class="card" :class="{'todo': doc.data().isTodo}" @click.native="editDeck">
+      <v-container fluid>
+        <v-layout fill-height wrap>
+          <v-flex xs12>
+            <span class="subheading">{{ doc.data().subject }}</span>
+          </v-flex>
+          <v-flex xs12 justify-space-around>
+            <span class="card-title">{{ doc.data().title }}</span>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </div>
   </v-flex>
 </template>
 
@@ -31,6 +42,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   .card-title {
     font-weight: bold;
     font-family: sans-serif;
@@ -41,5 +53,8 @@ export default {
     -ms-user-select: none;
     user-select: none;
   }
+}
+.todo {
+  background-color: lightseagreen;
 }
 </style>

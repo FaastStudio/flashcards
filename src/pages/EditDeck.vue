@@ -8,7 +8,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="green darken-1" flat @click="dialog = false">Cancel</v-btn>
-          <v-btn color="red darken-1" flat @click="deleteDeck()">Save</v-btn>
+          <v-btn color="red darken-1" flat @click="deleteDeck()">Delete</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -33,7 +33,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" flat @click="dialog = false">Save</v-btn>
+          <v-btn color="blue darken-1" flat @click="updateDeckData()">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -59,7 +59,19 @@
     <v-flex>
       <v-card flat style="background: transparent;">
         <v-card-title>
-          <span class="headline" v-if="deckRef"> {{ deckRef.title }} </span>
+          <v-container fluid>
+            <v-layout wrap>
+              <v-flex xs12>
+                <span class="headline" v-if="deckRef"> {{ deckRef.subject }} </span>
+              </v-flex>
+              <v-flex xs12>
+                <span class="title" v-if="deckRef"> {{ deckRef.title }} </span>
+              </v-flex>
+              <v-flex xs12>
+                <span class="excerpt" v-if="deckRef.deadline">Deadline: {{ deckRef.deadline }} </span>
+              </v-flex>
+            </v-layout>
+          </v-container>
         </v-card-title>
         <v-card v-for="card in cards" :key="card.id" class="mt-3">
           <v-container>
@@ -95,7 +107,7 @@ export default {
   name: 'edit-deck',
   data () {
     return {
-      deckRef: null,
+      deckRef: false,
       cards: [],
       // deck data edit modal
       dialog: false,
@@ -106,13 +118,9 @@ export default {
     deckId () {
       return this.$route.params.deckId
     },
-    activeFab () {
-      switch (this.tabs) {
-        case 'one': return { 'class': 'purple', icon: 'account_circle' }
-        case 'two': return { 'class': 'red', icon: 'edit' }
-        case 'three': return { 'class': 'green', icon: 'keyboard_arrow_up' }
-        default: return {}
-      }
+    Cdeadline () {
+      if (this.deckRef.deadline !== null) return this.deckRef.deadline
+      else return false
     }
   },
   created () {

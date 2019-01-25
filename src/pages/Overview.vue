@@ -25,7 +25,7 @@ export default {
   async created () {
     const deckRef = await firebase.firestore().collection('decks')
     const userId = await firebase.auth().currentUser.uid
-    deckRef.where('creator', '==', userId).get().then((querySnapshot) => {
+    deckRef.where('creator', '==', userId).orderBy('createdAt', 'desc').get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         this.decksData.push(doc)
         console.log(doc.id, ':', doc.data(), doc.metadata.fromCache)

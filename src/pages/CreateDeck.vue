@@ -11,7 +11,8 @@
     </v-toolbar>
 
     <v-flex v-if="!tool" xs12 sm10 md8 lg6>
-      <h1>Create Deck</h1>
+      <h1 v-if="!todoCheckbox">Create Deck</h1>
+      <h1 v-else>Create To-Do</h1>
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-text-field
           label="Title"
@@ -25,9 +26,43 @@
           v-model="subject"
           required
         ></v-text-field>
-        <v-btn :disabled="!valid" color="primary" @click="createDeck()">Create Deck</v-btn>
+
+        <!-- Date Picker -->
+        <v-dialog
+          v-if="todoCheckbox"
+          persistent
+          v-model="modal"
+          lazy
+          full-width
+        >
+          <v-text-field
+            slot="activator"
+            label="Set Deadline"
+            v-model="deadline"
+            prepend-icon="event"
+            readonly
+          ></v-text-field>
+          <v-date-picker v-model="deadline" scrollable actions>
+            <template>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn flat color="primary" @click="modal = false, deadline = null">Cancel</v-btn>
+                <v-btn flat color="primary" @click="modal = false">OK</v-btn>
+              </v-card-actions>
+            </template>
+          </v-date-picker>
+        </v-dialog>
+
+        <v-checkbox
+          label="Create To-Do?"
+          v-model="todoCheckbox"
+        ></v-checkbox>
+        <v-btn v-if="!todoCheckbox" :disabled="unlockSubmitButton" color="primary" @click="createDeck()">Create Deck</v-btn>
+        <v-btn v-if="todoCheckbox" :disabled="unlockSubmitButton" color="primary" @click="createTodo()">Create To-Do</v-btn>
       </v-form>
     </v-flex>
+
+    <!-- TOOL -->
     <v-flex v-if="tool">
       <v-card class="mx-auto" color="#eee" light max-width="400">
         <v-container>
@@ -87,6 +122,9 @@ export default {
     // Input
     title: null,
     subject: null,
+    deadline: null,
+    // Date picker modal
+    modal: false,
     // Create Card Tool
     tool: false,
     // Mode for adding cards afterwards
@@ -98,7 +136,9 @@ export default {
     },
     // Deck Data
     deck: [],
-    deckId: null
+    deckId: null,
+    // Todo Checkbox
+    todoCheckbox: false
   }),
   mounted () {
     if (this.$route.params.deckId) {
@@ -134,6 +174,7 @@ export default {
           creator: firebase.auth().currentUser.uid,
           title: this.title,
           subject: this.subject,
+          isTodo: false,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         }).then(res => {
           console.info('created')
@@ -142,6 +183,22 @@ export default {
         })
           .catch(err => console.error(err))
       }
+    },
+    createTodo () {
+      const deadline = this.deadline ? this.deadline : null
+      // Save deck
+      firebase.firestore().collection('decks').add({
+        creator: firebase.auth().currentUser.uid,
+        title: this.title,
+        subject: this.subject,
+        isTodo: true,
+        deadline: deadline,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(res => {
+        console.info('created')
+        this.$router.push('/home')
+      })
+        .catch(err => console.error(err))
     },
     saveDeck () {
       // Saving deck after creating cards
@@ -172,6 +229,15 @@ export default {
         this.title = doc.data().title
         this.subject = doc.data().subject
       })
+    }
+  },
+  computed: {
+    unlockSubmitButton () {
+      if (this.title) {
+        return false
+      } else {
+        return true
+      }
     }
   }
 }
