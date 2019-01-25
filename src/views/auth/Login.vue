@@ -48,7 +48,7 @@ export default {
     },
     loginGoogle () {
       const provider = new firebase.auth.GoogleAuthProvider()
-      firebase.auth().signInWithPopup(provider).then((result) => {
+      firebase.auth().signInWithRedirect(provider).then((result) => {
         const docRef = firebase.firestore().collection('user')
         const userId = result.user.uid
         const email = result.user.email

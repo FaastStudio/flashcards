@@ -10,7 +10,19 @@
         </v-list>
         <v-list class="pt-1">
           <v-divider></v-divider>
-          <v-list-tile class="unselect" v-for="item in items" :key="item.title">
+          <!-- <v-list-tile class="unselect" v-for="item in items" :key="item.title">
+            <v-list-tile-action>
+              <v-icon class="unselect">
+                {{ item.icon }}
+              </v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="unselect">
+                {{ item.title }}
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile> -->
+          <v-list-tile class="unselect" v-for="item in items" :key="item.title" @click="routeTo(item.route)">
             <v-list-tile-action>
               <v-icon class="unselect">
                 {{ item.icon }}
@@ -51,15 +63,28 @@ export default {
       items: [
         {
           title: 'Home',
-          icon: 'dashboard'
+          icon: 'dashboard',
+          route: '/home'
         },
         {
-          title: 'Profile'
+          title: 'Profile',
+          icon: 'account_circle',
+          route: '/profile'
+        },
+        {
+          title: 'Log Out',
+          route: 'logout'
         }
       ]
     }
   },
   methods: {
+    routeTo (route) {
+      if (route === 'logout') {
+        firebase.auth().signOut().then(this.$router.push('/login'))
+      }
+      if (route) this.$router.push(route)
+    },
     toggle () {
       this.$store.dispatch('toggleSidebar')
     },
