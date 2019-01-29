@@ -25,8 +25,7 @@ export default {
       },
       password: {
         input: ''
-      },
-      errorList: [{ color: 'danger', err: 'Check your Input!', active: false }, { color: 'danger', err: 'Something went wrong! Try again later...', active: false }]
+      }
     }
   },
   methods: {
@@ -43,36 +42,34 @@ export default {
         }
         this.$router.replace('home')
       }).catch((err) => {
-        if (err) this.errorList[1].active = true
+        console.error(err)
       })
     },
     loginGoogle () {
       const provider = new firebase.auth.GoogleAuthProvider()
-      firebase.auth().signInWithRedirect(provider).then((result) => {
+      firebase.auth().signInWithPopup(provider).then((result) => {
         const docRef = firebase.firestore().collection('user')
         const userId = result.user.uid
         const email = result.user.email
         if (docRef.doc(userId)) {
-          return this.$router.replace('home')
+          return this.$router.push('/')
         } else {
           docRef.doc(userId).set({ id: userId, email })
-            .then(this.$router.replace('home')).catch(err => console.log(err))
+            .then(this.$router.push('/')).catch(err => console.log(err))
         }
-        this.$router.replace('home')
       }).catch((err) => {
-        if (err) this.errorList[1].active = true
+        console.error(err)
       })
+      console.log('User', firebase.auth().currentUser)
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
-.login {
-  color: #333;
-  height: 100vh;
-  .formItem {
-    margin-bottom: 1rem;
-  }
-}
+<style lang="stylus" scoped>
+.login
+  color: #333
+  height: 100vh
+  .formItem
+    margin-bottom: 1rem
 </style>

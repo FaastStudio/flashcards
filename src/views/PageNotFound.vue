@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>Sign Up</p>
+    <p>404 - Page Not Found!</p>
   </div>
 </template>
 

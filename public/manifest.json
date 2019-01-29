@@ -1,6 +1,6 @@
 {
-  "name": "flashcards",
-  "short_name": "flashcards",
+  "name": "Flashcards",
+  "short_name": "DEX",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
