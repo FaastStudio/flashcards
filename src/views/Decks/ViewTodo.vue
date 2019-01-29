@@ -72,6 +72,8 @@
                           <v-btn flat color="primary" @click="$refs.menu.save(deckRef.deadline)">OK</v-btn>
                         </v-date-picker>
                       </v-menu>
+
+                      <v-textarea outline label="Details" v-model="deckRef.details"></v-textarea>
                   </v-form>
                 </v-flex>
               </v-layout>
@@ -93,6 +95,15 @@
               </v-layout>
             </v-container>
           </v-card-title>
+          <v-card-text v-if="deckRef.details">
+            <v-container>
+              <v-layout>
+                <v-flex xs12>
+                  {{ deckRef.details }}
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>

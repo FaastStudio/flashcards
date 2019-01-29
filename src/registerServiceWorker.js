@@ -4,7 +4,7 @@ import { register } from 'register-service-worker'
 import alertify from 'alertify.js'
 
 const notifyUserAboutUpdate = worker => {
-  alertify.confirm('New content!', () => {
+  alertify.confirm('New content available!', () => {
     worker.postMessage({ action: 'skipWaiting' })
   })
 }
@@ -25,6 +25,7 @@ if (process.env.NODE_ENV === 'production') {
     },
     updatefound (registration) {
       console.log('New content is downloading.')
+      notifyUserAboutUpdate(registration.waiting)
     },
     updated (registration) {
       console.log('New content is available; please refresh.')

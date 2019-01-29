@@ -45,7 +45,7 @@
               <v-text-field
                 slot="activator"
                 v-model="deadline"
-                label="Set Date"
+                label="Set Date (optional)"
                 prepend-icon="event"
                 readonly
               ></v-text-field>
@@ -55,6 +55,8 @@
                 <v-btn flat color="primary" @click="$refs.menu.save(deadline)">OK</v-btn>
               </v-date-picker>
             </v-menu>
+
+            <v-textarea v-if="todoCheckbox" outline name="details" label="Details (optional)" v-model="detailsBox"></v-textarea>
 
           <v-checkbox v-model="todoCheckbox" label="Create Todo?"></v-checkbox>
 
@@ -114,6 +116,7 @@ export default {
     todoCheckbox: false,
     datePicker: false,
     deadline: null,
+    detailsBox: null,
     priority: 'low',
     // Create Card Tool
     tool: false,
@@ -185,6 +188,7 @@ export default {
         title: this.title,
         subject: this.subject,
         isTodo: true,
+        details: this.details,
         priority: this.priority,
         deadline: deadline,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
