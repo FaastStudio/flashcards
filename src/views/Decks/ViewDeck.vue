@@ -190,7 +190,7 @@ export default {
 
 <style lang="stylus" scoped>
 .fab {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 0;
   margin-bottom: 20px;

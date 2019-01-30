@@ -6,6 +6,7 @@ import Home from './views/Home.vue'
 import CreateDeck from './views/Decks/CreateDeck.vue'
 import ViewDeck from './views/Decks/ViewDeck.vue'
 import ViewTodo from './views/Decks/ViewTodo.vue'
+import PlayView from './views/PlayView.vue'
 import PageNotFound from './views/PageNotFound.vue'
 import SignIn from './views/Auth/SignIn.vue'
 import SignUp from './views/Auth/SignUp.vue'
@@ -71,6 +72,17 @@ const router = new Router({
       },
       meta: {
         requiresAuth: true
+      }
+    },
+    {
+      path: '/play/:deckId',
+      name: 'playView',
+      components: {
+        default: PlayView
+      },
+      meta: {
+        requiresAuth: false,
+        loggedOut: false
       }
     },
     {
