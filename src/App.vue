@@ -17,6 +17,7 @@ export default {
     isDarkMode () {
       return this.$store.state.isDarkMode
     }
-  }
+  },
+  created () {}
 }
 </script>

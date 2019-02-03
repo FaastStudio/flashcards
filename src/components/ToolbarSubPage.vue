@@ -9,7 +9,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn icon>
+        <v-btn icon @click.native.stop="play()">
           <v-icon class="green--text">play_arrow</v-icon>
         </v-btn>
         <v-btn @click.native.stop="editDeck()" icon>
@@ -40,6 +40,10 @@ export default {
     },
     editDeck () {
       this.$store.state.editDeck = true
+    },
+    play () {
+      const deckId = this.$route.params.deckId
+      this.$store.dispatch('startPlayMode', deckId)
     }
   }
 }

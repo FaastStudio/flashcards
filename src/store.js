@@ -3,12 +3,21 @@ import Vuex from 'vuex'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
+import router from './router'
+import user from './store/user'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  modules: {
+    user
+  },
   state: {
+    // Profile
+    user: null,
+    // Settings
     isDarkMode: false,
+    // Data
     fetchedDecks: [
       {}
     ],
@@ -16,8 +25,14 @@ export default new Vuex.Store({
     editDeck: false
   },
   mutations: {
+    darkMode (state) {
+      state.isDarkMode = !state.isDarkMode
+    },
     setDecks (state, decks) {
       state.fetchedDecks = decks
+    },
+    setUser (state, userData) {
+      state.user = userData
     },
     deleteDialog (state) {
       state.deleteDialog = !state.deleteDialog
@@ -41,9 +56,20 @@ export default new Vuex.Store({
         context.commit('setDecks', decks)
       })
     },
+    startPlayMode (context, deckId) {
+      router.push('/play/' + deckId)
+    },
     deleteDeck (context, deckId) {
       console.log('delete Deck', deckId)
       context.commit('deleteDialog')
+    },
+    setUser (context) {
+      // fetch and save user data to state
+      const user = firebase.auth().currentUser
+      context.commit('setUser', user)
+    },
+    toggleDarkMode (context) {
+      context.commit('darkMode')
     },
     logout (context) {
       firebase.auth().signOut()
@@ -53,6 +79,9 @@ export default new Vuex.Store({
   getters: {
     fetchedDecks (state) {
       return state.fetchedDecks
+    },
+    isDarkMode (state) {
+      return state.isDarkMode
     }
   }
 })

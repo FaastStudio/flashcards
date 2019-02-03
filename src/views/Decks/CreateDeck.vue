@@ -181,16 +181,15 @@ export default {
       }
     },
     createTodo () {
-      const deadline = this.deadline ? this.deadline : null
       // Save Todo
       firebase.firestore().collection('decks').add({
         creator: firebase.auth().currentUser.uid,
         title: this.title,
         subject: this.subject,
         isTodo: true,
-        details: this.details,
+        details: this.detailsBox,
         priority: this.priority,
-        deadline: deadline,
+        deadline: this.deadline,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       }).then(res => {
         console.info('Created')
