@@ -9,7 +9,7 @@ import ViewTodo from './views/Decks/ViewTodo.vue'
 import PlayView from './views/PlayView.vue'
 import PageNotFound from './views/PageNotFound.vue'
 import SignIn from './views/Auth/SignIn.vue'
-import SignUp from './views/Auth/SignUp.vue'
+// import SignUp from './views/Auth/SignUp.vue'
 import Profile from './views/User/Profile.vue'
 import Settings from './views/User/Settings.vue'
 
@@ -129,18 +129,18 @@ const router = new Router({
       meta: {
         loggedOut: true
       }
-    },
-    {
-      path: '/register',
-      name: 'register',
-      components: {
-        default: SignUp,
-        toolbar: ToolbarBasic
-      },
-      meta: {
-        loggedOut: true
-      }
     }
+    // {
+    //   path: '/register',
+    //   name: 'register',
+    //   components: {
+    //     default: SignUp,
+    //     toolbar: ToolbarBasic
+    //   },
+    //   meta: {
+    //     loggedOut: true
+    //   }
+    // }
   ]
 })
 

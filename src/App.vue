@@ -2,9 +2,7 @@
   <v-app :dark="isDarkMode">
     <router-view name="toolbar"></router-view>
     <v-content>
-      <main>
-        <router-view></router-view>
-      </main>
+      <router-view></router-view>
     </v-content>
   </v-app>
 </template>
