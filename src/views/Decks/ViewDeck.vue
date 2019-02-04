@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-layout>
-      <v-dialog v-model="deleteDialog" persistent max-width="600px">
+      <v-dialog v-if="isOwner" v-model="deleteDialog" persistent max-width="600px">
         <v-card>
           <v-card-title>
             <span class="headline" v-if="!isTodo">Delete Deck</span>
@@ -18,6 +18,7 @@
       <!-- Change Deck-data model -->
 
       <v-dialog
+        v-if="isOwner"
         v-model="editDialog"
         fullscreen
         hide-overlay
@@ -103,7 +104,7 @@
         </v-card>
       </v-flex>
       <!-- FAB -->
-      <v-btn absolute dark fab color="pink" v-if="!deckRef.isTodo" class="fab" @click="addCard">
+      <v-btn absolute dark fab color="pink" v-if="isOwner" class="fab" @click="addCard">
         <v-icon>add</v-icon>
       </v-btn>
     </v-layout>
@@ -117,6 +118,7 @@ export default {
   name: 'edit-deck',
   data () {
     return {
+      owner: null,
       deckRef: {},
       cards: [],
       // deck data edit modal
@@ -136,6 +138,9 @@ export default {
     },
     editDialog () {
       return this.$store.state.editDeck
+    },
+    isOwner () {
+      return this.$store.getters['user/currentUser'].uid === this.owner
     }
   },
   created () {
@@ -146,6 +151,7 @@ export default {
     deckRef.get().then(doc => {
       if (doc.exists) {
         this.deckRef = doc.data()
+        this.owner = doc.data().creator
       }
     })
     deckRef
@@ -158,7 +164,9 @@ export default {
   methods: {
     // On FAB click, add new Card
     addCard () {
-      this.$router.push('/create/' + this.deckId)
+      if (this.isOwner) {
+        this.$router.push('/create/' + this.deckId)
+      }
     },
     // update deck data
     updateDeckData () {

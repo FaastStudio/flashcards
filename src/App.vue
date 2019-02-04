@@ -15,9 +15,17 @@ export default {
   name: 'App',
   computed: {
     isDarkMode () {
-      return this.$store.state.isDarkMode
+      return this.$store.getters['settings/isDarkMode']
     }
   },
-  created () {}
+  created () {
+    // Fetch user
+    this.$store.dispatch('user/currentUser')
+    console.log('onLounch', localStorage.getItem('isDarkMode'))
+    if (localStorage.getItem('isDarkMode') === true) {
+      console.log('setTrue')
+      this.$store.settings.state.isDarkMode = true
+    }
+  }
 }
 </script>

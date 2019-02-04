@@ -71,7 +71,8 @@ const router = new Router({
         toolbar: ToolbarSubPage
       },
       meta: {
-        requiresAuth: true
+        requiresAuth: false,
+        loggedOut: false
       }
     },
     {

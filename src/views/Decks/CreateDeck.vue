@@ -218,7 +218,7 @@ export default {
         })
       }
       if (this.addCardMode) {
-        this.$router.push('/edit/' + this.deckId)
+        this.$router.push('/deck/' + this.deckId)
       } else {
         this.$router.push('/')
       }

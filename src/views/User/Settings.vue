@@ -2,7 +2,12 @@
   <v-container>
     <v-layout column>
       <v-flex xs12>
-        <v-checkbox @click.native="toggleDarkMode()" value="isDarkMode" label="Dark mode"></v-checkbox>
+        <v-list two-line style="background: transparent">
+          <v-subheader>Theme</v-subheader>
+          <v-list-tile>
+            <v-checkbox @click.native="toggleDarkMode()" v-model="darkMode" label="Dark mode"></v-checkbox>
+          </v-list-tile>
+        </v-list>
       </v-flex>
     </v-layout>
   </v-container>
@@ -12,16 +17,21 @@
 export default {
   name: 'profile',
   data () {
-    return {}
+    return {
+      darkMode: false
+    }
   },
   computed: {
     isDarkMode () {
-      return this.$store.getters.isDarkMode
+      return this.$store.getters['settings/isDarkMode']
     }
+  },
+  created () {
+    this.darkMode = this.isDarkMode
   },
   methods: {
     toggleDarkMode () {
-      this.$store.dispatch('toggleDarkMode')
+      this.$store.dispatch('settings/toggleDarkMode')
     }
   }
 }
