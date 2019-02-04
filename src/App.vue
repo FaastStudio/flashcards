@@ -21,11 +21,11 @@ export default {
   created () {
     // Fetch user
     this.$store.dispatch('user/currentUser')
-    console.log('onLounch', localStorage.getItem('isDarkMode'))
-    if (localStorage.getItem('isDarkMode') === true) {
-      console.log('setTrue')
-      this.$store.settings.state.isDarkMode = true
-    }
+  },
+  mounted () {
+    let theme = localStorage.getItem('isDarkMode')
+    let currentTheme = this.$store.getters['settings/isDarkMode']
+    if (theme === 'true' && !currentTheme) this.$store.dispatch('settings/toggleDarkMode')
   }
 }
 </script>

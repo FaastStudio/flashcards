@@ -5,7 +5,7 @@
         <v-list two-line style="background: transparent">
           <v-subheader>Theme</v-subheader>
           <v-list-tile>
-            <v-checkbox @click.native="toggleDarkMode()" v-model="darkMode" label="Dark mode"></v-checkbox>
+            <v-checkbox @click.native.stop="toggleDarkMode()" v-model="darkMode" label="Dark mode"></v-checkbox>
           </v-list-tile>
         </v-list>
       </v-flex>
