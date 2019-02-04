@@ -115,10 +115,10 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 export default {
-  name: 'edit-deck',
+  name: 'viewDeck',
   data () {
     return {
-      owner: null,
+      owner: false,
       deckRef: {},
       cards: [],
       // deck data edit modal
@@ -140,7 +140,8 @@ export default {
       return this.$store.state.editDeck
     },
     isOwner () {
-      return this.$store.getters['user/currentUser'].uid === this.owner
+      if (this.$store.getters['user/currentUser'] === null) return false
+      else return this.$store.getters['user/currentUser'].uid === this.owner
     }
   },
   created () {
