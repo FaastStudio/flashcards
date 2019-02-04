@@ -15,8 +15,11 @@
         <v-btn @click.native.stop="editDeck()" icon>
           <v-icon>edit</v-icon>
         </v-btn>
-        <v-btn @click="deleteDeck" icon>
+        <v-btn @click="deleteDeck()" icon>
           <v-icon class="red--text">delete</v-icon>
+        </v-btn>
+        <v-btn icon>
+          <v-icon @click="shareDeck()">share</v-icon>
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
@@ -44,6 +47,15 @@ export default {
     play () {
       const deckId = this.$route.params.deckId
       this.$store.dispatch('startPlayMode', deckId)
+    },
+    async shareDeck () {
+      let url = document.location.href
+      console.log('url:', url)
+      if (navigator.share) {
+        navigator.share({
+          url: url
+        })
+      }
     }
   }
 }

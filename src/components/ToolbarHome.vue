@@ -10,9 +10,9 @@
         </v-list-tile>
         <v-list-tile router to="/login" @click.native.stop="logout()">
           <v-list-tile-action>
-            <v-icon>lock_open</v-icon>
+            <v-icon class="red--text">lock_open</v-icon>
           </v-list-tile-action>
-          <v-list-tile-content>Logout</v-list-tile-content>
+          <v-list-tile-content class="red--text">Logout</v-list-tile-content>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
