@@ -1,50 +1,30 @@
 <template>
-  <v-container class="container" fluid style="height: 100vh;">
-    <div class="startView" column justify-center v-if="!startGame && !endGame">
-      <span class="display-1">Start Learning!</span>
-      <v-btn color="success" class="mt-5" @click="startGame = !startGame">Start<v-icon>play_arrow</v-icon></v-btn>
-      <v-btn color="red" class="mt-5" outline @click.native="goBack()" >Cancel<v-icon>close</v-icon></v-btn>
-    </div>
-    <v-layout v-if="startGame && !endGame" fill-height justify-center align-center>
-      <v-flex xs12 md8 lg6 @click.native.stop="reveal()">
-        <v-card @click.native.stop="reveal()" flat>
-          <v-card-title>
-            <v-container fluid>
-              <v-layout justify-center align-center>
-                <v-flex xs12 class="display-1">{{ displayCard.question }}?</v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-title>
-          <v-card-text v-if="showAnswer" class="body-2">
-          <v-container fluid>
-            <v-layout>
-              <v-flex>{{ displayCard.answer }}</v-flex>
-            </v-layout>
-          </v-container>
-          </v-card-text>
-          <v-card-actions v-if="showAnswer">
-            <v-container>
-              <v-layout row>
-                <v-flex xs6>
-                  <v-btn color="red" flat @click.native.stop="answerFalse()">
-                    False
-                  </v-btn>
-                </v-flex>
-                <v-flex xs6>
-                  <v-btn color="success" flat @click.native.stop="answerTrue()">
-                    True
-                  </v-btn>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-actions>
+  <v-container fill-height>
+    <v-layout v-if="gameStart" justify-center align-center>
+      <v-flex fill-height xs12>
+        <v-card flat @click.native.stop="showAnswer = true" style="height: 100%; display: flex; flex-direction: column;
+        background-color: transparent; justify-content: space-between;">
+          <div class="content">
+            <v-card-title>
+              <span v-if="displayQuestion" class="display-1 mt-5"> {{ displayQuestion }}? </span>
+            </v-card-title>
+            <v-card-text v-if="showAnswer">
+              <span class="subheading">{{ displayAnswer }}</span>
+            </v-card-text>
+          </div>
+          <div class="action mb-3" v-if="showAnswer">
+            <v-card-actions style="display: flex; align-items: center; justify-content: space-evenly">
+                <v-btn depressed color="red" @click.native.stop="answerWrong()">Answer False</v-btn>
+                <v-btn depressed color="green" @click.native.stop="answerTrue()">Anser True</v-btn>
+            </v-card-actions>
+          </div>
         </v-card>
       </v-flex>
     </v-layout>
-    <div class="startView" column justify-center v-if="endGame && !startGame">
-      <span class="display-1">Well done!</span>
-      <v-btn color="success" class="mt-5">Restart <v-icon>arrow_left</v-icon></v-btn>
-      <v-btn color="red" class="mt-5" outline @click.native.stop="goHome()">Home <v-icon>close</v-icon></v-btn>
+    <div style="display: flex; flex-direction: column; margin: 0 auto;" v-else>
+      <span class="display-1 mb-3">Well, done!</span>
+      <v-btn color="green" outline @click.native.stop="cardCount = 0">Restart</v-btn>
+      <v-btn color="red" outline @click.native.stop="goHome()">back Home</v-btn>
     </div>
   </v-container>
 </template>
@@ -53,85 +33,75 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 export default {
-  name: 'PlayView1',
+  name: 'PlayView',
   data () {
     return {
-      // Fetched Data
-      deckId: null,
+      deck: null,
       cards: [],
-      // Game options
-      startGame: false,
-      cardCount: 0,
+      // show
       showAnswer: false,
-      wrongCount: 0,
-      rightCount: 0,
-      wrongCards: []
+      cardCount: 0
+    }
+  },
+  computed: {
+    gameStart () {
+      const max = this.cards.length
+      const current = this.cardCount
+      if (current < max) return true
+      else return false
+    },
+    displayQuestion () {
+      if (this.cards[this.cardCount]) {
+        return this.cards[this.cardCount].question
+      } else {
+        return null
+      }
+    },
+    displayAnswer () {
+      if (this.cards[this.cardCount]) {
+        return this.cards[this.cardCount].answer
+      } else {
+        return null
+      }
     }
   },
   methods: {
-    fetchCards () {
-      this.deckId = this.$route.params.deckId
-      firebase.firestore().collection('decks').doc(this.deckId).collection('cards').get().then(snapshot => {
-        snapshot.forEach(card => this.cards.push(card))
-      })
+    fetchDeck () {
+      firebase.firestore().collection('decks').doc(this.$route.params.deckId).get()
+        .then(deck => {
+          this.deck = deck.data()
+          this.deck.id = deck.id
+          console.log('fetchedDeck', this.deck)
+        })
+    },
+    fetchCard () {
+      firebase.firestore().collection('decks').doc(this.$route.params.deckId).collection('cards').get()
+        .then(snap => {
+          let cardArray = []
+          snap.forEach(card => {
+            cardArray.push(card.data())
+          })
+          this.cards = cardArray
+        })
+    },
+    answerWrong () {
+      this.showAnswer = false
+      this.cards.push(this.cards[this.cardCount])
+      this.cardCount++
     },
     answerTrue () {
       this.showAnswer = false
       this.cardCount++
-      this.rightCount++
-    },
-    answerFalse () {
-      this.showAnswer = false
-      this.cardCount++
-      this.wrongCount++
-      this.wrongCards.push(this.displayCard)
-    },
-    reveal () {
-      this.showAnswer = true
-    },
-    setEndGame () {
-      this.startGame = false
     },
     goHome () {
-      this.$router.replace(`/deck/${this.deckId}`)
-    },
-    goBack () {
-      this.$router.go(-1)
-    }
-  },
-  computed: {
-    displayCard () {
-      if (this.cardCount > this.cards.length) {
-        console.log('Deck completed')
-        this.setEndGame()
-        return this.cards[0].data()
-      } else return this.cards[this.cardCount].data()
-    },
-    endGame () {
-      if (this.cardCount > this.cards.length - 1) {
-        return true
-      } else return false
+      this.$router.replace('/')
     }
   },
   created () {
-    this.startGame = false
+    this.deck = null
     this.cards = []
-    this.wrongCards = []
-    this.rightCount = 0
-    this.wrongCount = 0
-    this.showAnswer = false
-    this.cardCount = 0
-    this.fetchCards()
+    this.fetchDeck()
+    this.fetchCard()
   }
 }
 </script>
-
-<style lang="stylus" scoped>
-.container
-  .startView
-    height 100%
-    display flex
-    flex-direction column
-    justify-content center
-    align-items center
-</style>
