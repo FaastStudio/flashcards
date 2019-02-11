@@ -95,17 +95,9 @@
               </v-layout>
             </v-container>
           </v-card-title>
-          <v-card-text v-if="deckRef.details">
-            <v-container>
-              <v-layout>
-                <v-flex xs12>
-                  <pre>
-                    {{ deckRef.details }}
-                  </pre>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
+          <div class="details-box">
+            <pre>{{deckRef.details}}</pre>
+          </div>
         </v-card>
       </v-flex>
     </v-layout>
@@ -196,3 +188,11 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+.details-box
+  width 100%
+  pre
+    white-space: pre-wrap
+    word-wrap: break-word
+</style>

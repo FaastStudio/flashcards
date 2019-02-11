@@ -129,7 +129,7 @@
                     <span class="title font-weight-light" style="word-wrap: break-word;"> {{ card.data().question }} </span>
                   </v-card-title>
                   <v-card-text class="answer-text-box">
-                    <pre class="headline font-weight-medium answer-text"> {{ card.data().answer }} </pre>
+                    <pre class="headline font-weight-medium answer-text">{{card.data().answer}}</pre>
                   </v-card-text>
                   <v-card-actions>
                     <v-list-tile class="grow">
