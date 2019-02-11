@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <v-layout>
+  <v-container style="overflow: hidden;">
+    <v-layout row wrap>
       <v-dialog v-if="isOwner" v-model="deleteDialog" persistent max-width="600px">
         <v-card>
           <v-card-title>
@@ -15,6 +15,31 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+
+      <!-- Edit Deck Modal -->
+
+      <v-dialog v-model="editCardModal" fullscreen hide-overlay transition="dialog-bottom-transition">
+        <v-card>
+          <v-toolbar dark color="primary">
+            <v-btn icon dark @click="editCardModal = false">
+              <v-icon>close</v-icon>
+            </v-btn>
+            <v-toolbar-title>Settings</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-toolbar-items>
+              <v-btn dark flat @click="editCardModal = false">Save</v-btn>
+            </v-toolbar-items>
+          </v-toolbar>
+          <v-list three-line subheader>
+            <v-subheader>User Controls</v-subheader>
+          </v-list>
+          <v-divider></v-divider>
+          <v-list three-line subheader>
+            <v-subheader>General</v-subheader>
+          </v-list>
+        </v-card>
+      </v-dialog>
+
       <!-- Change Deck-data model -->
 
       <v-dialog
@@ -85,22 +110,57 @@
         </v-card>
       </v-dialog>
 
-      <v-flex>
+      <v-flex xs12>
         <v-card flat style="background: transparent;">
           <v-card-title>
             <span class="headline" v-if="deckRef">{{ deckRef.title }}</span>
           </v-card-title>
-          <v-card v-for="card in cards" :key="card.id" class="mt-3">
-            <v-container>
-              <v-card-title class="subheading">{{ card.data().question }}?</v-card-title>
-              <v-layout row class="mt-3">
-                <v-flex xs2>
-                  <v-icon>priority_hight</v-icon>
-                </v-flex>
-                <v-flex xs10>{{ card.data().answer }}</v-flex>
-              </v-layout>
-            </v-container>
-          </v-card>
+
+          <v-container fluid>
+            <v-layout row wrap>
+              <v-flex xs12 md8 lg4 v-for="card in cards" :key="card.id"
+                class="px-2"
+              >
+                <v-card
+                  style="width: 100%;"
+                  class="mb-3"
+                >
+                  <v-card-title>
+                    <span class="title font-weight-light" style="word-wrap: break-word;"> {{ card.data().question }} </span>
+                  </v-card-title>
+                  <v-card-text class="answer-text-box">
+                    <pre class="headline font-weight-medium answer-text"> {{ card.data().answer }} </pre>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-list-tile class="grow">
+                      <v-layout align-center justify-end>
+                        <v-menu bottom left>
+                          <v-btn
+                            slot="activator"
+                            icon
+                          >
+                            <v-icon>more_vert</v-icon>
+                          </v-btn>
+
+                          <v-list>
+                            <v-list-tile>
+                              <v-list-tile-title @click="editCard(card.id)">Edit</v-list-tile-title>
+                            </v-list-tile>
+                            <v-list-tile>
+                              <v-list-tile-title>
+                                <v-list-tile-title>Delete</v-list-tile-title>
+                              </v-list-tile-title>
+                            </v-list-tile>
+                          </v-list>
+                        </v-menu>
+                      </v-layout>
+                    </v-list-tile>
+                  </v-card-actions>
+                </v-card>
+              </v-flex>
+            </v-layout>
+          </v-container>
+
         </v-card>
       </v-flex>
       <!-- FAB -->
@@ -123,7 +183,9 @@ export default {
       cards: [],
       // deck data edit modal
       dialog: true,
-      datePicker: false
+      datePicker: false,
+      // Edit card
+      editCardModal: false
     }
   },
   computed: {
@@ -192,12 +254,21 @@ export default {
         .delete()
         .then(this.$store.commit('deleteDialog'))
         .then(this.$router.push('/'))
+    },
+    editCard (id) {
+      this.editCardModal = true
+      console.log('id: ', id)
     }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
+.answer-text-box
+  width 100%
+  pre
+    white-space: pre-wrap
+    word-wrap: break-word
 .fab {
   position: fixed;
   bottom: 0;

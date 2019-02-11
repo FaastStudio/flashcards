@@ -84,9 +84,10 @@
               <span class="title font-weight-light">Answer</span>
             </v-card-title>
 
-            <v-text-field label="The answer..." v-model="cardInput.answer"></v-text-field>
+            <v-textarea label="The answer..." v-model="cardInput.answer"></v-textarea>
 
             <v-card-actions>
+              <v-btn color="info" icon><v-icon>camera</v-icon></v-btn>
               <v-btn color="primary" @click="saveCard()">New Card</v-btn>
               <v-btn color="success" @click="saveDeck()">Save Deck</v-btn>
             </v-card-actions>
