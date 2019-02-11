@@ -99,7 +99,9 @@
             <v-container>
               <v-layout>
                 <v-flex xs12>
-                  {{ deckRef.details }}
+                  <pre>
+                    {{ deckRef.details }}
+                  </pre>
                 </v-flex>
               </v-layout>
             </v-container>
