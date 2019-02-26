@@ -43,7 +43,7 @@ export default new Vuex.Store({
       const deckRef = await firebase.firestore().collection('decks')
       const userId = await firebase.auth().currentUser.uid
       let decks = []
-      deckRef.where('creator', '==', userId).get().then((querySnapshot) => {
+      deckRef.where('creator', '==', userId)^.orderBy('createdAt', 'desc').get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           let pre = doc.data()
           pre.id = doc.id
