@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <v-layout>
+      <!-- Create Form -->
       <v-flex v-if="!tool" xs12 sm10 md8 lg6>
         <h1 v-if="!todoCheckbox">Create Deck</h1>
         <h1 v-else>Create Todo</h1>
@@ -60,9 +61,10 @@
 
           <v-checkbox v-model="todoCheckbox" label="Create Todo?"></v-checkbox>
 
-          <v-btn :disabled="!valid" v-if="!todoCheckbox" color="primary" @click="createDeck()">Create Deck</v-btn>
-          <v-btn :disabled="!valid" v-else color="primary" @click="createTodo()">Create Todo</v-btn>
+          <v-btn :disabled="unlockButton" v-if="!todoCheckbox" color="primary" @click="createDeck()">Create Deck</v-btn>
+          <v-btn :disabled="unlockButton" v-else color="primary" @click="createTodo()">Create Todo</v-btn>
         </v-form>
+        <!-- END Create FOrm -->
       </v-flex>
 
       <!-- Card TOOL -->
@@ -110,6 +112,7 @@ export default {
   data: () => ({
     snackbar: false,
     valid: false,
+    unlock: false,
     // Input
     title: null,
     subject: null,
@@ -132,6 +135,11 @@ export default {
     deck: [],
     deckId: null
   }),
+  computed: {
+    unlockButton () {
+      return !(this.valid && !this.unlock)
+    }
+  },
   mounted () {
     if (this.$route.params.deckId) {
       console.log('add card')
@@ -161,6 +169,7 @@ export default {
       }
     },
     createDeck () {
+      this.unlock = true
       if (this.deck !== []) {
         // Save deck
         firebase
@@ -174,6 +183,7 @@ export default {
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           })
           .then(res => {
+            this.unlock = false
             console.info('created')
             this.deckId = res.id
             this.tool = true
@@ -183,6 +193,7 @@ export default {
     },
     createTodo () {
       // Save Todo
+      this.unlock = true
       firebase.firestore().collection('decks').add({
         creator: firebase.auth().currentUser.uid,
         title: this.title,
@@ -194,6 +205,7 @@ export default {
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       }).then(res => {
         console.info('Created')
+        this.unlock = false
         this.$router.replace('/')
       }).catch(err => {
         console.error(err)
