@@ -8,17 +8,17 @@ import ViewDeck from './views/Decks/ViewDeck.vue'
 import ViewTodo from './views/Decks/ViewTodo.vue'
 import PlayView from './views/PlayView.vue'
 import PageNotFound from './views/PageNotFound.vue'
+import SignIn from './views/auth/SignIn.vue'
 // import SignUp from './views/Auth/SignUp.vue'
-const Profile = () => import('./views/User/Profile.vue')
-const Settings = () => import('./views/User/Settings.vue')
-const SignIn = () => import('./views/Auth/SignIn.vue')
+import Profile from './views/User/Profile.vue'
+import Settings from './views/User/Settings.vue'
 
 // Toolbars
-const ToolbarHome = () => import('@/components/ToolbarHome.vue')
-const ToolbarBasic = () => import('@/components/ToolbarBasic.vue')
-const ToolbarTodo = () => import('@/components/ToolbarTodo.vue')
-const ToolbarGoHome = () => import('@/components/ToolbarGoHome.vue')
-const ToolbarSubPage = () => import('@/components/ToolbarSubPage.vue')
+import ToolbarHome from '@/components/ToolbarHome.vue'
+import ToolbarBasic from '@/components/ToolbarBasic.vue'
+import ToolbarTodo from '@/components/ToolbarTodo.vue'
+import ToolbarGoHome from '@/components/ToolbarGoHome.vue'
+import ToolbarSubPage from '@/components/ToolbarSubPage.vue'
 
 Vue.use(Router)
 

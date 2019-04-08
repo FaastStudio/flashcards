@@ -5,6 +5,7 @@ import './plugins/longPress'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
+import 'firebase/messaging'
 import './assets/stylus/main.styl'
 import router from './router'
 import store from './store'
@@ -43,6 +44,16 @@ db.enablePersistence()
       // ...
     }
   })
+// Messagin
+const messaging = firebase.messaging()
+messaging.usePublicVapidKey('BCklyMzIWEeE_OOjdEE_bbbiLV2ZG6_Ue88PtmAwc7sLS05YvMa18MggCVk203k60O-55d6g5oqiVKgVK5qOcGg')
+if (store.state.enableNotifications) {
+  messaging.requestPermission().then(() => {
+    console.log('Push Notifications Enabled')
+  }).catch(err => {
+    console.log('Permission denied', err)
+  })
+}
 
 Vue.config.productionTip = false
 
