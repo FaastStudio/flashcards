@@ -24,8 +24,6 @@ export default {
     }
   },
   created () {
-    // Fetch user
-    this.$store.dispatch('user/currentUser')
     this.setTheme()
   },
   updated () {

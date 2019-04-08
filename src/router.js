@@ -8,7 +8,7 @@ import ViewDeck from './views/Decks/ViewDeck.vue'
 import ViewTodo from './views/Decks/ViewTodo.vue'
 import PlayView from './views/PlayView.vue'
 import PageNotFound from './views/PageNotFound.vue'
-import SignIn from './views/auth/SignIn.vue'
+import SignIn from './views/Auth/SignIn.vue'
 // import SignUp from './views/Auth/SignUp.vue'
 import Profile from './views/User/Profile.vue'
 import Settings from './views/User/Settings.vue'
@@ -148,11 +148,19 @@ router.beforeEach((to, from, next) => {
   const currentUser = firebase.auth().currentUser
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   const loggedOut = to.matched.some(record => record.meta.loggedOut)
+  console.log(currentUser)
+  if (requiresAuth && !currentUser) {
+    return next({
+      path: '/login',
+      query: { redirect: to.fullPath }
+    })
+  }
 
-  if (requiresAuth && !currentUser) next('/login')
-  else if (loggedOut && currentUser) next('/') // cannot view this page while loggedIn
-  else if (!requiresAuth && currentUser) next()
-  else next()
+  if (currentUser && loggedOut) {
+    return next('/')
+  }
+
+  next()
 })
 
 export default router

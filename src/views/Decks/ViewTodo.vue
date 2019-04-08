@@ -95,9 +95,11 @@
               </v-layout>
             </v-container>
           </v-card-title>
-          <div class="details-box">
-            <pre>{{deckRef.details}}</pre>
-          </div>
+          <v-container>
+            <div class="details-box">
+              <pre>{{deckRef.details}}</pre>
+            </div>
+          </v-container>
         </v-card>
       </v-flex>
     </v-layout>

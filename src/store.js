@@ -18,9 +18,7 @@ export default new Vuex.Store({
     // Profile
     user: null,
     // Data
-    fetchedDecks: [
-      {}
-    ],
+    fetchedDecks: [],
     deleteDialog: false,
     editDeck: false
   },
@@ -48,7 +46,6 @@ export default new Vuex.Store({
           let pre = doc.data()
           pre.id = doc.id
           decks.push(pre)
-          console.log(doc.id, ':', pre, doc.metadata.fromCache)
         })
         context.commit('setDecks', decks)
       })

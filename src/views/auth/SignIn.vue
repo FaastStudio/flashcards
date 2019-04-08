@@ -1,20 +1,32 @@
 <template>
-  <v-container>
-    <v-layout wrap justify-center align-center class="text-xs-center text-lg-left" style="margin-top: 18vh;">
-      <v-flex xs12 class="mb-5"><span class="display-1">DEX</span></v-flex>
-      <v-flex xs12 mb6 class="mb-3">
-        <p class="subheading">Create digital flashcard decks and have them ready on every device.
-          <br>
-          Study better with advanced learning games on the go!
-        </p>
-      </v-flex>
-      <v-flex xs12 class="mb-4"><span class="display-1">Start learning now!</span></v-flex>
-      <v-flex xs12>
-        <v-tooltip v-model="show" bottom>
-          <v-btn slot="activator" large depressed round color="primary" @click.native="loginGoogle(), show = !show">Start now using Google</v-btn>
-          <span>Only available with Google Auth at the moment</span>
-        </v-tooltip>
-      </v-flex>
+  <v-container fill-height>
+    <v-layout align-center column justify-center fill-height>
+      <div>
+        <v-flex xs12 md8 lg4>
+          <div style="text-align: center; margin-top: -3rem; margin-bottom: 3rem;">
+            <h3>DEX Login</h3>
+          </div>
+          <v-form @submit.prevent="login">
+            <v-text-field v-model="form.email" label="Email" type="email" required></v-text-field>
+            <v-text-field v-model="form.password" label="Password" type="password" required></v-text-field>
+            <v-btn :disabled="!inputValid" class="mb-3" type="submit" color="primary" block round>LOG IN</v-btn>
+
+            <span class="grey--text">OR REGISTER WITH A SOCIAL ACCOUNT</span>
+            <v-layout row justify-space-between class="mt-3">
+              <v-flex xs5>
+                <div>
+                  <v-btn @click="loginGoogle" type="button" color="white" block round>GOOGLE</v-btn>
+                </div>
+              </v-flex>
+              <v-flex xs5>
+                <div>
+                  <v-btn type="button" color="blue" class="white--text" block round>TWITTER</v-btn>
+                </div>
+              </v-flex>
+            </v-layout>
+          </v-form>
+        </v-flex>
+      </div>
     </v-layout>
   </v-container>
 </template>
@@ -26,48 +38,53 @@ export default {
   name: 'SignIn',
   data () {
     return {
-      // email: {
-      //   input: ''
-      // },
-      // password: {
-      //   input: ''
-      // },
-      show: true
+      form: {
+        email: '',
+        password: ''
+      }
     }
   },
   methods: {
-    // login () {
-    //   firebase.auth().signInWithEmailAndPassword(this.email.input, this.password.input).then((result) => {
-    //     const docRef = firebase.firestore().collection('user')
-    //     const userId = result.user.uid
-    //     const email = result.user.email
-    //     if (docRef.doc(userId)) {
-    //       return this.$router.replace('home')
-    //     } else {
-    //       docRef.doc(userId).set({ id: userId, email })
-    //         .then(this.$router.replace('home')).catch(err => console.log(err))
-    //     }
-    //     this.$router.replace('home')
-    //   }).catch((err) => {
-    //     console.error(err)
-    //   })
-    // },
-    loginGoogle () {
-      const provider = new firebase.auth.GoogleAuthProvider()
-      firebase.auth().signInWithPopup(provider).then((result) => {
-        const docRef = firebase.firestore().collection('user')
-        const userId = result.user.uid
-        const email = result.user.email
-        if (docRef.doc(userId)) {
-          return this.$router.push('/')
-        } else {
-          docRef.doc(userId).set({ id: userId, email })
-            .then(this.$router.push('/')).catch(err => console.log(err))
+    login () {
+      firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password).then((result) => {
+        if (result.user) {
+          return this.$router.push({
+            path: this.$route.query.redirect || '/'
+          })
         }
       }).catch((err) => {
         console.error(err)
       })
-      console.log('User', firebase.auth().currentUser)
+    },
+    loginGoogle () {
+      const provider = new firebase.auth.GoogleAuthProvider()
+      firebase.auth().signInWithRedirect(provider).then((result) => {
+        const docRef = firebase.firestore().collection('user')
+        const userId = result.user.uid
+        const email = result.user.email
+        if (docRef.doc(userId)) {
+          return this.$router.push({
+            path: this.$route.query.redirect || '/'
+          })
+        } else {
+          docRef.doc(userId).set({ id: userId, email })
+            .then(() => {
+              this.$router.push({
+                path: this.$route.query.redirect || '/'
+              })
+            })
+            .catch(err => console.log(err))
+        }
+      }).catch((err) => {
+        console.error(err)
+      })
+    }
+  },
+  computed: {
+    inputValid () {
+      if (!!this.form.email && !!this.form.password) {
+        return true
+      } else return false
     }
   }
 }

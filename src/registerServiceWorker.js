@@ -1,8 +1,6 @@
 /* eslint-disable no-console */
 
 import { register } from 'register-service-worker'
-import firebase from 'firebase/app'
-import 'firebase/messaging'
 import alertify from 'alertify.js'
 
 const notifyUserAboutUpdate = worker => {

@@ -27,10 +27,6 @@ firebase.initializeApp(config)
 
 // config firestore
 var db = firebase.firestore()
-// Timestamps
-db.settings({
-  timestampsInSnapshots: true
-})
 // Persistance
 db.enablePersistence()
   .catch(function (err) {
