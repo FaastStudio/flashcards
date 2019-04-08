@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 
 import { register } from 'register-service-worker'
+import firebase from 'firebase/app'
+import 'firebase/messaging'
 import alertify from 'alertify.js'
 
 const notifyUserAboutUpdate = worker => {
@@ -44,14 +46,4 @@ if (process.env.NODE_ENV === 'production') {
     window.location.reload()
     refreshing = true
   })
-
-  navigator.serviceWorker.ready
-    .then(function (registration) {
-      return registration.pushManager.getSubscription()
-        .then(async function (subscription) {
-          if (subscription) {
-            return subscription
-          }
-        })
-    })
 }
