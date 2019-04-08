@@ -1,29 +1,25 @@
 <template>
-  <v-container fill-height style="width: 100vw; overflow: hidden;">
+  <v-container fill-height fluid style="width: 100vw; overflow: hidden;">
     <v-layout v-if="gameStart" justify-center align-center>
       <v-flex fill-height xs12>
         <v-card flat @click.native.stop="showAnswer = true" style="height: 100%; display: flex; flex-direction: column;
         background-color: transparent; justify-content: space-between;">
           <div class="content">
             <v-card-title>
-              <v-container fluid>
-                <v-layout>
-                  <v-flex xs12 class="mt-4">
+                  <div xs12 class="mt-4">
                     <p v-if="info1 < 2" class="caption info--text">Answer this question then tab the screen...</p>
                     <p v-if="displayQuestion" class="display-1 mt-0" style="width: 100%; word-wrap: break-word;">{{ displayQuestion }}?</p>
-                  </v-flex>
-                </v-layout>
-              </v-container>
+                  </div>
             </v-card-title>
 
             <v-card-text v-if="showAnswer">
-              <p class="subheading ml-4">{{ displayAnswer }}</p>
+              <pre>{{ displayAnswer }}</pre>
             </v-card-text>
 
           </div>
 
           <div class="action mb-3" v-if="showAnswer">
-            <p class="body-2 mb-1 ml-5 info--text">Was your answer correct..?</p>
+            <p class="body-2 mb-1 ml-3 info--text">Was your answer correct..?</p>
             <v-card-actions style="display: flex; align-items: center; justify-content: space-evenly">
                 <v-btn depressed color="red white--text" @click.native.stop="answerWrong()">Answer False</v-btn>
                 <v-btn depressed color="green white--text" @click.native.stop="answerTrue()">Anser True</v-btn>

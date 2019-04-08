@@ -1,8 +1,24 @@
+const fetchRequest = (state) => {
+  state.isFetching = true
+}
 
-const UPDATE_USER = (state, user) => {
+const fetchSuccess = (state, user) => {
+  state.isFetching = false
+  state.userData = user
+}
+
+const fetchError = (state, message) => {
+  state.isFetching = false
+  state.errorMessage = message
+}
+
+const fetchUser = (state, user) => {
   state.userData = user
 }
 
 export default {
-  UPDATE_USER
+  fetchError,
+  fetchRequest,
+  fetchSuccess,
+  fetchUser
 }

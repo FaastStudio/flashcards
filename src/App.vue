@@ -16,14 +16,20 @@ export default {
       return this.$store.getters['settings/isDarkMode']
     }
   },
+  methods: {
+    setTheme () {
+      let theme = localStorage.getItem('isDarkMode')
+      let currentTheme = this.$store.getters['settings/isDarkMode']
+      if (theme === 'true' && !currentTheme) this.$store.dispatch('settings/toggleDarkMode')
+    }
+  },
   created () {
     // Fetch user
     this.$store.dispatch('user/currentUser')
+    this.setTheme()
   },
-  mounted () {
-    let theme = localStorage.getItem('isDarkMode')
-    let currentTheme = this.$store.getters['settings/isDarkMode']
-    if (theme === 'true' && !currentTheme) this.$store.dispatch('settings/toggleDarkMode')
+  updated () {
+    this.setTheme()
   }
 }
 </script>
