@@ -3,22 +3,22 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import CreateDeck from './views/Decks/CreateDeck.vue'
-import ViewDeck from './views/Decks/ViewDeck.vue'
-import ViewTodo from './views/Decks/ViewTodo.vue'
-import PlayView from './views/PlayView.vue'
-import PageNotFound from './views/PageNotFound.vue'
-import SignIn from './views/Auth/SignIn.vue'
+const CreateDeck = () => require('./views/Decks/CreateDeck.vue')
+const ViewDeck = () => require('./views/Decks/ViewDeck.vue')
+const ViewTodo = () => require('./views/Decks/ViewTodo.vue')
+const PlayView = () => require('./views/PlayView.vue')
+const PageNotFound = () => require('./views/PageNotFound.vue')
+const SignIn = () => require('./views/Auth/SignIn.vue')
 // import SignUp from './views/Auth/SignUp.vue'
-import Profile from './views/User/Profile.vue'
-import Settings from './views/User/Settings.vue'
+const Profile = () => require('./views/User/Profile.vue')
+const Settings = () => require('./views/User/Settings.vue')
 
 // Toolbars
-import ToolbarHome from '@/components/ToolbarHome.vue'
-import ToolbarBasic from '@/components/ToolbarBasic.vue'
-import ToolbarTodo from '@/components/ToolbarTodo.vue'
-import ToolbarGoHome from '@/components/ToolbarGoHome.vue'
-import ToolbarSubPage from '@/components/ToolbarSubPage.vue'
+const ToolbarHome = () => require('@/components/ToolbarHome.vue')
+const ToolbarBasic = () => require('@/components/ToolbarBasic.vue')
+const ToolbarTodo = () => require('@/components/ToolbarTodo.vue')
+const ToolbarGoHome = () => require('@/components/ToolbarGoHome.vue')
+const ToolbarSubPage = () => require('@/components/ToolbarSubPage.vue')
 
 Vue.use(Router)
 
