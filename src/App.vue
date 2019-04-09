@@ -1,7 +1,7 @@
 <template>
   <v-app :dark="isDarkMode">
     <router-view name="toolbar"></router-view>
-    <v-content>
+    <v-content transition="fade-transition">
       <router-view></router-view>
     </v-content>
   </v-app>

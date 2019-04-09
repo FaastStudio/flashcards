@@ -20,7 +20,7 @@
               </v-flex>
               <v-flex xs5>
                 <div>
-                  <v-btn type="button" color="blue" class="white--text" block round>TWITTER</v-btn>
+                  <v-btn type="button" color="blue" class="white--text" block round disabled>TWITTER</v-btn>
                 </div>
               </v-flex>
             </v-layout>

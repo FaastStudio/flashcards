@@ -16,7 +16,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar temporary app>
+    <v-toolbar temporary app tabs>
       <v-toolbar-side-icon v-if="!searchBar" @click.native.stop="sideNav = !sideNav"></v-toolbar-side-icon>
       <v-toolbar-title class="headline text-uppercase" v-if="!searchBar">
         <router-link to="/" class="font-weight-light" tag="span" style="cursor: pointer;">Dex</router-link><span class="caption">  Development </span><span class="caption text-lowercase">&alpha;</span>
@@ -48,6 +48,14 @@
           <v-icon>close</v-icon>
         </v-btn>
       </v-toolbar-items>
+
+      <template v-slot:extension>
+        <v-tabs color="transparent" grow>
+          <v-tabs-slider color="blue"></v-tabs-slider>
+          <v-tab @click="$router.push({query: { tab: 'todo' }})">Todo</v-tab>
+          <v-tab @click="$router.push({query: { tab: 'decks' }})">Decks</v-tab>
+        </v-tabs>
+      </template>
     </v-toolbar>
   </div>
 </template>
