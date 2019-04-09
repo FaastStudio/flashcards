@@ -1,6 +1,6 @@
 {
-  "name": "flashcards",
-  "version": "0.1.0",
+  "name": "dex",
+  "version": "0.1.2",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
