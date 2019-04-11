@@ -50,6 +50,7 @@ export default {
             } else {
               docRef.doc(userId).set({ id: userId, email })
                 .then(() => {
+                  console.log(result)
                   store.commit('user/updateUser', { result })
                   return result
                 })
@@ -60,7 +61,7 @@ export default {
           })
       },
       logout: async () => {
-        await auth().signOut()
+        await auth.signOut()
         router.replace('/login')
       }
     }
