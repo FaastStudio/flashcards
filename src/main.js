@@ -5,7 +5,7 @@ import './plugins/longPress'
 import './assets/stylus/main.styl'
 import router from './router'
 import store from './store'
-import VueMathjax from 'vue-mathjax'
+// import VueMathjax from 'vue-mathjax'
 import './registerServiceWorker'
 import 'material-icons/iconfont/material-icons.css' // Material Icons
 import App from './App.vue'
@@ -15,10 +15,10 @@ Vue.config.productionTip = false
 
 // Vue.use(VueI18n)
 
-// const i18n = new VueI18n({})
-
-Vue.use(VueMathjax)
+// Vue.use(VueMathjax)
 Vue.use(firebaseAuth)
+
+// const i18n = new VueI18n({})
 
 new Vue({
   // i18n,

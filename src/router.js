@@ -7,7 +7,7 @@ import Home from './views/Home.vue'
 
 // Toolbars
 import ToolbarHome from '@/components/ToolbarHome.vue'
-import SignIn from './views/Auth/SignIn.vue'
+import SignIn from './views/auth/SignIn.vue'
 const CreateDeck = () => import('./views/Decks/CreateDeck.vue')
 const ViewDeck = () => import('./views/Decks/ViewDeck.vue')
 const ViewTodo = () => import('./views/Decks/ViewTodo.vue')
