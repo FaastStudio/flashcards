@@ -66,8 +66,10 @@ export default {
       }
     }
     auth.onAuthStateChanged(user => {
+      store.commit('loadingSpinner', true)
       store.commit('user/updateUser', { user })
       if (user) router.push('/')
+      store.commit('loadingSpinner', false)
     })
   }
 }

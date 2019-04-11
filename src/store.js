@@ -17,12 +17,17 @@ export default new Vuex.Store({
   state: {
     // Profile
     user: null,
+    // UI
+    loadingSpinner: false,
     // Data
     fetchedDecks: [],
     deleteDialog: false,
     editDeck: false
   },
   mutations: {
+    loadingSpinner (state, bool) {
+      state.loadingSpinner = bool
+    },
     setDecks (state, decks) {
       state.fetchedDecks = decks
     },
@@ -71,6 +76,7 @@ export default new Vuex.Store({
   getters: {
     fetchedDecks (state) {
       return state.fetchedDecks
-    }
+    },
+    loadingSpinner: state => state.loadingSpinner
   }
 })
