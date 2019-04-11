@@ -38,8 +38,9 @@ export default new Vuex.Store({
   },
   actions: {
     async fetchDecks (context) {
+      const user = context.getters['user/user']
+      const userId = user.uid
       const deckRef = await firebase.firestore().collection('decks')
-      const userId = await firebase.auth().currentUser.uid
       let decks = []
       deckRef.where('creator', '==', userId).orderBy('createdAt', 'desc').get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {

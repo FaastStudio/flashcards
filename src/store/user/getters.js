@@ -1,5 +1,7 @@
-const currentUser = state => state.userData
+const user = (state) => {
+  return state.user
+}
 
 export default {
-  currentUser
+  user
 }

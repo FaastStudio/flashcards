@@ -4,7 +4,7 @@ const fetchRequest = (state) => {
 
 const fetchSuccess = (state, user) => {
   state.isFetching = false
-  state.userData = user
+  state.user = user
 }
 
 const fetchError = (state, message) => {
@@ -12,13 +12,13 @@ const fetchError = (state, message) => {
   state.errorMessage = message
 }
 
-const fetchUser = (state, user) => {
-  state.userData = user
+const updateUser = (state, { user }) => {
+  state.user = user
 }
 
 export default {
   fetchError,
   fetchRequest,
   fetchSuccess,
-  fetchUser
+  updateUser
 }

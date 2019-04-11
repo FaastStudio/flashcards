@@ -19,14 +19,11 @@ export default {
   methods: {
     setTheme () {
       let theme = localStorage.getItem('isDarkMode')
-      let currentTheme = this.$store.getters['settings/isDarkMode']
-      if (theme === 'true' && !currentTheme) this.$store.dispatch('settings/toggleDarkMode')
+      // let currentTheme = this.$store.getters['settings/isDarkMode']
+      if (theme === 'true') this.$store.dispatch('settings/toggleDarkMode')
     }
   },
   created () {
-    this.setTheme()
-  },
-  updated () {
     this.setTheme()
   }
 }
