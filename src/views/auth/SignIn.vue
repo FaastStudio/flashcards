@@ -5,6 +5,7 @@
       column
       justify-center
       fill-height
+      v-if="!loadingSpinner"
     >
       <v-flex
         xs12
@@ -70,6 +71,16 @@
         </v-form>
       </v-flex>
     </v-layout>
+    <v-layout v-else align-center justify-center>
+      <v-flex xs12 md8 lg6>
+        <div style="width: 100%; text-align: center;">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
+        </div>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
@@ -104,6 +115,7 @@ export default {
     ...mapGetters('user', [
       'user'
     ]),
+    ...mapGetters(['loadingSpinner']),
     nextRoute () {
       return this.$route.query.redirect || '/'
     }

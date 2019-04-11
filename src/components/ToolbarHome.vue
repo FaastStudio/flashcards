@@ -52,7 +52,7 @@
       <v-spacer></v-spacer>
       <v-toolbar-items v-if="!searchBar">
         <v-btn
-          @click.native.stop="searchBar = !searchBar"
+          @click="searchBar = !searchBar"
           icon
           class="hidden-md-and-up"
         >
@@ -78,7 +78,7 @@
       <v-toolbar-items v-if="searchBar">
         <v-btn
           icon
-          @click.native.stop="searchBar = !searchBar"
+          @click="searchBar = !searchBar"
         >
           <v-icon>close</v-icon>
         </v-btn>
@@ -90,8 +90,8 @@
           grow
         >
           <v-tabs-slider color="blue"></v-tabs-slider>
-          <v-tab :to="({query: { tab: 'todo' }})">Todo</v-tab>
-          <v-tab :to="({query: { tab: 'decks' }})">Decks</v-tab>
+          <v-tab :to="({ path: '/' ,query: { tab: 'todo' }})">Todo</v-tab>
+          <v-tab :to="({ path: '/', query: { tab: 'decks' }})">Decks</v-tab>
         </v-tabs>
       </template>
     </v-toolbar>
