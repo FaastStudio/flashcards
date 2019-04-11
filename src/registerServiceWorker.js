@@ -4,7 +4,7 @@ import { register } from 'register-service-worker'
 import alertify from 'alertify.js'
 
 const notifyUserAboutUpdate = worker => {
-  alertify.confirm('New content available!', () => {
+  alertify.confirm('New version available!', () => {
     worker.postMessage({ action: 'skipWaiting' })
   })
 }
@@ -38,7 +38,7 @@ if (process.env.NODE_ENV === 'production') {
     }
   })
 
-  var refreshing
+  let refreshing
   navigator.serviceWorker.addEventListener('controllerchange', () => {
     if (refreshing) return
     window.location.reload()
